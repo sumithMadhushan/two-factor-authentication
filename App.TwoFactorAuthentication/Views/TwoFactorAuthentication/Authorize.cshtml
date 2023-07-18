@@ -1,0 +1,23 @@
+﻿@{
+    ViewData["Title"] = "Authorize Your Login";
+}
+<div class="container">
+    <div class="text-center">
+        <h1>Two Factor Authentication</h1>
+        @if (!string.IsNullOrEmpty(ViewData["ErrorMessage"]?.ToString()))
+        {
+            <div class="alert alert-danger">@ViewData["ErrorMessage"]</div>
+        }
+        <form method="post">
+
+            <div class="row g-3 align-items-center">
+                <input class="form-control" name="inputCode" type="text" placeholder="security code" aria-label="Input security code">
+                <input type="hidden" name="callbackUrl" value="@ViewData["CallbackUrl"]" />
+                <br /><br />
+            </div>
+
+            <input class="btn btn-outline-primary" type="submit" />
+        </form>
+
+    </div>
+</div>
