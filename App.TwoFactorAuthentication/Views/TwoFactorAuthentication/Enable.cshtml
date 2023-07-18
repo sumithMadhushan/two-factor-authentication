@@ -1,0 +1,49 @@
+﻿@{
+    ViewData["Title"] = "Enable two-factor authentication";
+}
+<div class="container">
+    <div class="text-center">
+        <h1>Enable two-factor authentication</h1>
+        @if (!string.IsNullOrEmpty(ViewData["ErrorMessage"]?.ToString()))
+        {
+            <div class="alert alert-danger">@ViewData["ErrorMessage"]</div>
+        }
+        <p>Setup Guide <a target="_blank" href="https://support.microsoft.com/en-au/account-billing/download-and-install-the-microsoft-authenticator-app-351498fc-850a-45da-b7b6-27e523b8702a">Download and install the Microsoft Authenticator app</a>.</p>
+        <section>
+            <h3>Set up the Authenticator app</h3>
+
+            <p>After you install the Authenticator app, follow the steps below to add your account:</p>
+
+            <ol class="custom-list">
+                <li>Open the Authenticator app</li>
+                <li>
+                    Select (+) in the upper right corner.
+                </li>
+                <li>
+                    Point your camera at the QR code or follow the instructions provided in your account settings.
+                </li>
+            </ol>
+            <p>After your account appears in your Authenticator app, you can use the one-time codes to sign in. For more information and support on the Authenticator App, open the&nbsp;<a href="https://www.microsoft.com/en-us/security/mobile-authenticator-app" target="_blank" class="ocpExternalLink">Download Microsoft Authenticator</a> page.</p>
+
+        </section>
+        <form method="post">
+            <img src="@ViewBag.BarcodeImageUrl" /><br />
+
+            <div class="row g-3 align-items-center">
+                <input class="form-control" type="text" placeholder="@ViewBag.SetupCode" aria-label="Setup Code" disabled>
+                <br />
+                <br />
+                <br />
+                <input class="form-control" name="inputCode" type="text" placeholder="security code" aria-label="Input security code">
+            </div>
+
+            <br />
+            <br />
+            <input type="hidden" name="callbackUrl" value="@ViewData["CallbackUrl"]" />
+            <input class="btn btn-outline-primary" type="submit" />
+
+
+        </form>
+
+    </div>
+</div>

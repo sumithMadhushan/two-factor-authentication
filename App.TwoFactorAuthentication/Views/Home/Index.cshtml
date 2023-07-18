@@ -1,0 +1,43 @@
+﻿@model TwoFactorAuthRequest;
+
+@{
+    ViewData["Title"] = "Home Page";
+    var callbackUrl = Model.CallbackUrl;
+    var encodedCallbackUrl = System.Uri.EscapeDataString(callbackUrl);
+}
+<div class="container">
+    <div class="text-center">
+        <h1 class="display-4">Welcome to Authenticator App Setup</h1>
+        <p>Learn about <a target="_blank" href="https://support.microsoft.com/en-au/account-billing/download-and-install-the-microsoft-authenticator-app-351498fc-850a-45da-b7b6-27e523b8702a">Download and install the Microsoft Authenticator app</a>.</p>
+
+        @if (CurrentUser.SignedInUser == null)
+        {
+            <p>First, Login to your system to setup 2FA</p>
+            <a href="@Model.CallbackUrl">Sign in first</a>
+        }
+        else
+        {
+            <a href="@Model.CallbackUrl">Go Back</a>
+            <br />
+
+            @if (@Model.IsTwoFactorEnabled == false && Model.UserEmail != null)
+            {
+                <p>Please use below link to Enable 2FA</p> <br />
+                var enable2FAUrl = $"/twofactorauthentication/enable?callbackUrl={encodedCallbackUrl}";
+                <a class="btn btn-success" href=@enable2FAUrl role="button">Setup 2FA</a>
+            }
+
+            @if (@Model.IsTwoFactorEnabled && Model.UserEmail != null)
+            {
+                <p>Please use below link to Authorize and Dosabled 2FA</p> <br />
+
+                var authorizeLoginUrl = $"/twofactorauthentication/authorize?callbackUrl={encodedCallbackUrl}";
+                <a class="btn btn-success" href=@authorizeLoginUrl role="button">Authorize your login</a>
+
+
+                var disable2FAUrl = $"/twofactorauthentication/disable?callbackUrl={encodedCallbackUrl}";
+                <a class="btn btn-outline-danger" href=@disable2FAUrl role="button">Disable two-factor</a>
+            }
+        }
+    </div>
+</div>
